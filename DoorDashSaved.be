@@ -1,11 +1,11 @@
 # @name    DoorDashSaved
 # @desc    Money saved this month by skipping DoorDash, and what it grows to
 # @author  monad-droid
-# @version 1.1
+# @version 1.2
 # @config  monthly number "Monthly average"    default=681.34 min=0 max=99999 step=0.01 unit=$ help="Your average monthly DoorDash spend"
 # @config  rate    number "Growth rate"        default=15 min=0 max=100 step=0.1 unit=% group=Future
 # @config  years   number "Years"              default=30 min=1 max=100 group=Future
-# @config  flip    number "Flip every"         default=4 min=1 max=30 unit=s help="Seconds before switching views"
+# @config  flip    number "Flip every"         default=60 min=5 max=3600 unit=s help="Seconds before switching views"
 # @config  tint    color  "Savings color"      default=#3CDC5A
 # @config  gold    color  "Future color"       default=#FFD700 group=Future
 # @config  bar     bool   "Month progress bar" default=true
@@ -22,8 +22,7 @@ class DoorDashSaved
   var future   # page 2 text, e.g. "45,113"
   var fill     # progress bar length in pixels
   var tint, gold
-  var flip_ms
-  var shown_at
+  var flip
   var ticks
 
   def init()
@@ -31,8 +30,7 @@ class DoorDashSaved
     self.fill = 0
     self.tint = store.get("tint")
     self.gold = store.get("gold")
-    self.flip_ms = int(num(store.get("flip"), 4) * 1000)
-    self.shown_at = 0
+    self.flip = int(num(store.get("flip"), 60))
     self.ticks = 0
     var grown = num(store.get("monthly"), 0) * math.pow(1 + num(store.get("rate"), 0) / 100.0, num(store.get("years"), 0))
     self.future = self.money(grown)
@@ -80,18 +78,14 @@ class DoorDashSaved
     self.ticks -= 1
   end
 
-  def on_show()
-    self.shown_at = now_ms()
-  end
-
-  # stay long enough to show both views once
-  def duration()
-    return self.flip_ms * 2
-  end
-
   def draw()
     clear()
-    var future = ((now_ms() - self.shown_at) / self.flip_ms) % 2 == 1
+    # switch on the wall clock (seconds since midnight), so the views take
+    # turns even when the app only gets a short slot in the rotation
+    var future = false
+    if year() > 0
+      future = ((hour() * 3600 + minute() * 60 + second()) / self.flip) % 2 == 1
+    end
 
     if future
       # rising chart with an arrowhead
