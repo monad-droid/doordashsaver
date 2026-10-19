@@ -6,7 +6,7 @@ It flips between two views every minute:
 
 ```
  🐷  417.60        saved so far this month (green, with a month progress bar)
- 📈  45,113        one month's spend after 30 years at 15% (gold)
+ 📊  45,113        one month's spend after 30 years at 15% (gold, with green rising bars)
 ```
 
 ## How the number works

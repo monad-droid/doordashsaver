@@ -1,7 +1,7 @@
 # @name    DoorDashSaved
 # @desc    Money saved this month by skipping DoorDash, and what it grows to
 # @author  monad-droid
-# @version 1.2
+# @version 1.3
 # @config  monthly number "Monthly average"    default=681.34 min=0 max=99999 step=0.01 unit=$ help="Your average monthly DoorDash spend"
 # @config  rate    number "Growth rate"        default=15 min=0 max=100 step=0.1 unit=% group=Future
 # @config  years   number "Years"              default=30 min=1 max=100 group=Future
@@ -88,13 +88,12 @@ class DoorDashSaved
     end
 
     if future
-      # rising chart with an arrowhead
+      # three green bars, rising left to right
+      var b = self.tint != nil ? self.tint : 0x3CDC5A
+      rect_fill(0, 4, 2, 3, b)
+      rect_fill(3, 2, 2, 5, b)
+      rect_fill(6, 0, 2, 7, b)
       var g = self.gold != nil ? self.gold : 0xFFD700
-      line(0, 6, 2, 4, g)
-      line(2, 4, 4, 5, g)
-      line(4, 5, 7, 1, g)
-      line(5, 1, 7, 1, g)
-      line(7, 1, 7, 3, g)
       text(9 + (23 - text_ink_width(self.future)) / 2, 6, self.future, g)
       return
     end
