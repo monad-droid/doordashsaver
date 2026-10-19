@@ -1,11 +1,11 @@
 # @name    DoorDashSaved
 # @desc    Money saved this month by skipping DoorDash, and what it grows to
 # @author  monad-droid
-# @version 1.3
+# @version 1.4
 # @config  monthly number "Monthly average"    default=681.34 min=0 max=99999 step=0.01 unit=$ help="Your average monthly DoorDash spend"
 # @config  rate    number "Growth rate"        default=15 min=0 max=100 step=0.1 unit=% group=Future
 # @config  years   number "Years"              default=30 min=1 max=100 group=Future
-# @config  flip    number "Flip every"         default=60 min=5 max=3600 unit=s help="Seconds before switching views"
+# @config  flip    number "Flip every"         default=900 min=5 max=3600 unit=s help="Seconds before switching views"
 # @config  tint    color  "Savings color"      default=#3CDC5A
 # @config  gold    color  "Future color"       default=#FFD700 group=Future
 # @config  bar     bool   "Month progress bar" default=true
@@ -30,7 +30,7 @@ class DoorDashSaved
     self.fill = 0
     self.tint = store.get("tint")
     self.gold = store.get("gold")
-    self.flip = int(num(store.get("flip"), 60))
+    self.flip = int(num(store.get("flip"), 900))
     self.ticks = 0
     var grown = num(store.get("monthly"), 0) * math.pow(1 + num(store.get("rate"), 0) / 100.0, num(store.get("years"), 0))
     self.future = self.money(grown)

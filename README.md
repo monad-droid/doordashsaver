@@ -2,7 +2,7 @@
 
 An [AWTRIX NG](https://blueforcer.github.io/awtrix-ng/) app for the Ulanzi TC001 pixel clock that shows how much money you've saved this month by not ordering DoorDash, and what that money could grow into.
 
-It flips between two views every minute:
+It flips between two views every 15 minutes:
 
 ```
  🐷  417.60        saved so far this month (green, with a month progress bar)
@@ -48,7 +48,7 @@ In the web UI under **Apps**, press ⚙ on the `DoorDashSaved` row:
 
 - **Monthly average**: your average monthly DoorDash spend (default 681.34)
 - **Growth rate** and **Years**: for the future view (default 15% and 30)
-- **Flip every**: seconds before switching views (default 60). The switch follows the clock's time, so if other apps share the rotation you'll see whichever view is current when this one comes up.
+- **Flip every**: seconds before switching views (default 900, i.e. 15 minutes). The switch follows the clock's time, so if other apps share the rotation you'll see whichever view is current when this one comes up.
 - **Savings color** / **Future color**: default green and gold
 - **Month progress bar**: on/off
 
